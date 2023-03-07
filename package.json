@@ -14,6 +14,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@prisma/client": "4.11.0",
     "next": "13.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -30,8 +31,22 @@
     "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
+    "husky": "^8.0.0",
     "prettier": "2.8.4",
-    "typescript": "^4.9.5",
-    "husky": "^8.0.0"
-  }
+    "prisma": "^4.11.0",
+    "typescript": "^4.9.5"
+  },
+  "description": "This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/safiul-dev/mess-management.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/safiul-dev/mess-management/issues"
+  },
+  "homepage": "https://github.com/safiul-dev/mess-management#readme"
 }
