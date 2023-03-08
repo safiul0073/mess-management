@@ -1,5 +1,8 @@
 import React from "react";
+import Protected from "../components/HOC/Protected";
 
-export default function Home(): JSX.Element {
-  return <div></div>;
+function Home(): JSX.Element {
+  return <></>;
 }
+
+export default Protected(Home);

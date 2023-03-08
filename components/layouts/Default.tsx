@@ -1,17 +1,17 @@
-import React from "react";
-import { SessionProvider } from "next-auth/react";
-import type { AppProps } from "next/app";
-import type { NextComponentType, NextPageContext } from "next";
+/* eslint-disable react/react-in-jsx-scope */
+import Protected from "../HOC/Protected";
 
-const Default: NextComponentType<NextPageContext, any, any> = ({
-  Component,
-  pageProps,
-}: AppProps) => {
+function Default({ children }: any) {
   return (
-    <SessionProvider session={pageProps.session}>
-      <Component {...pageProps} />
-    </SessionProvider>
+    <>
+      <div className="app-wrapper">
+        <div>
+          <h1>header</h1>
+        </div>
+        <div>sidebar</div>
+        {children}
+      </div>
+    </>
   );
-};
-
-export default Default;
+}
+export default Protected(Default);
