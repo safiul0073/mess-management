@@ -1,8 +1,8 @@
 import React from "react";
-import Protected from "../components/HOC/Protected";
+import { serverSideAuthentication } from "../functions/serverSideAuthentication";
 
 function Home(): JSX.Element {
   return <></>;
 }
-
-export default Protected(Home);
+export const getServerSideProps = serverSideAuthentication(["manager"]);
+export default Home;

@@ -57,6 +57,7 @@ export default async function refreshToken(
           name: true,
           phone: true,
           email: true,
+          role: true,
         },
       });
 

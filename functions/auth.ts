@@ -1,6 +1,6 @@
 import cookie from "cookie";
-import { sign } from "jsonwebtoken";
-import type { NextApiResponse } from "next";
+import { sign, verify } from "jsonwebtoken";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 interface userType {
   id: number;
@@ -24,16 +24,45 @@ export const refreshToken = (): any => {
     });
 };
 
+// getting authenticate user
+export const authUser = (req: NextApiRequest): any => {
+  if (req.headers.cookie) {
+    const cookies = cookie.parse(req.headers.cookie);
+    const refreshToken = cookies.refreshToken;
+
+    if (!refreshToken) return null;
+
+    let payload: any = null;
+
+    payload = verify(
+      refreshToken,
+      process.env.NODE_ENV !== "development"
+        ? process.env.REFRESH_TOKEN_SECRET ?? ""
+        : process.env.REFRESH_TOKEN_SECRET_PROD ?? ""
+    );
+
+    return payload;
+  }
+};
+
 export const createAccessToken: TokenTypeGuard<string> = (user: userType) => {
-  return sign({ userId: user.id }, process.env.ACCESS_TOKEN_SECRET ?? "", {
-    expiresIn: "15m",
-  });
+  return sign(
+    { userId: user.id, role: user.role },
+    process.env.ACCESS_TOKEN_SECRET ?? "",
+    {
+      expiresIn: "15m",
+    }
+  );
 };
 
 export const createRefreshToken: TokenTypeGuard<string> = (user: userType) => {
-  return sign({ userId: user.id }, process.env.REFRESH_TOKEN_SECRET ?? "", {
-    expiresIn: "7d",
-  });
+  return sign(
+    { userId: user.id, role: user.role },
+    process.env.REFRESH_TOKEN_SECRET ?? "",
+    {
+      expiresIn: "7d",
+    }
+  );
 };
 
 export const sendRefreshToken: CookieTypeGuard<any> = (

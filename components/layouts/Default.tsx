@@ -1,5 +1,4 @@
 /* eslint-disable react/react-in-jsx-scope */
-import Protected from "../HOC/Protected";
 
 function Default({ children }: any) {
   return (
@@ -14,4 +13,4 @@ function Default({ children }: any) {
     </>
   );
 }
-export default Protected(Default);
+export default Default;
