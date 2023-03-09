@@ -3,7 +3,7 @@ import { sign, verify } from "jsonwebtoken";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 interface userType {
-  id: number;
+  id: string;
   name: string;
   email: string;
   phone: string;

@@ -1,61 +1,35 @@
+import prisma from "../../../lib/prisma";
+import type { NextApiRequest, NextApiResponse } from "next";
+import bcrypt from "bcrypt";
 import {
   createAccessToken,
-  sendRefreshToken,
   createRefreshToken,
+  sendRefreshToken,
 } from "../../../functions/auth";
-import bcrypt from "bcrypt";
-import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../lib/prisma";
 
-interface ResponseData {
-  ok: boolean;
-  accessToken?: string;
-  user?: userType | null;
-  message?: unknown | string;
-}
-
-interface userType {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-}
-
-export default async function login(
-  req: NextApiRequest,
-  res: NextApiResponse<ResponseData>
-): Promise<any> {
+export default async function login(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const { username, password } = req.body;
-
-    if (username == null || username === undefined) {
-      res.send({ ok: false, message: "Please enter username!" });
-    }
-
-    if (password == null || password === undefined) {
-      res.send({ ok: false, message: "Please enter password!" });
-    }
-
     try {
+      const { username, password } = req.body;
+
       let user: any = null;
 
-      // getting user by username where phone or email
-      user = await prisma.user.findFirst({
+      user = await prisma.user.findUnique({
         where: {
           email: username,
         },
       });
 
-      if (user == null) {
-        user = await prisma.user.findFirst({
+      if (!user) {
+        user = await prisma.user.findUnique({
           where: {
             phone: username,
           },
         });
       }
 
-      if (user == null) {
-        res.status(401).json({ ok: false, message: "User not found" });
+      if (!user) {
+        res.status(401).json({ message: "User not found" });
         return;
       }
 
@@ -67,32 +41,34 @@ export default async function login(
         role: user.role,
       };
 
-      // checking password validation
       const valid = bcrypt.compareSync(password, user.password);
 
-      if (valid == null) {
-        res.status(401).json({ ok: false, message: "Invalid password" });
+      if (!valid) {
+        res.status(401).json({ message: "Invalid password" });
         return;
       }
 
-      // creating access toke for only valid 15 min
       const accessToken = createAccessToken(userForTheClient);
-      // creating refresh token valid for 7 days
-      const refreshToken = createRefreshToken(userForTheClient);
-      // sending refresh token to domain cookie
-      sendRefreshToken(res, refreshToken);
+
+      sendRefreshToken(res, createRefreshToken(userForTheClient));
 
       res.status(200).json({
         ok: true,
         accessToken,
         user: userForTheClient,
       });
+
       return;
-    } catch (e) {
-      console.log(e);
-      res.send({ ok: false, message: e });
+    } catch (error) {
+      res.status(500).json({
+        ok: false,
+        message: error,
+      });
+      return;
     }
-  } else {
-    res.status(500).send({ ok: false, message: "something want wrong!" });
   }
+  res.status(404).json({
+    ok: false,
+    message: "Method not match.",
+  });
 }

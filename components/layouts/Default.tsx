@@ -1,14 +1,17 @@
 /* eslint-disable react/react-in-jsx-scope */
 
+import Sidebar from "../Sidebar";
+
 function Default({ children }: any) {
   return (
     <>
-      <div className="app-wrapper">
-        <div>
-          <h1>header</h1>
+      <div>
+        <Sidebar />
+        <div className="p-4 sm:ml-64">
+          <div className="p-4 border-2 border-gray-200  rounded-lg dark:border-gray-700 mt-14">
+            {children}
+          </div>
         </div>
-        <div>sidebar</div>
-        {children}
       </div>
     </>
   );

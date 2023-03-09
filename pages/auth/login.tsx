@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 import React, { useState } from "react";
-import InputField from "../../components/common/InputField";
-import { publicAxios, updateAxiosToken } from "../../config/exios.config";
-import { useStore } from "../../store";
 import { useRouter } from "next/router";
+import { useStore } from "../../store";
+import { publicAxios, updateAxiosToken } from "../../config/exios.config";
+import InputField from "../../components/common/InputField";
 
 const login = (): JSX.Element => {
   const [username, setUsername] = useState("");
@@ -72,7 +72,6 @@ const login = (): JSX.Element => {
                           aria-describedby="remember"
                           type="checkbox"
                           className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                          required
                         />
                       </div>
                       <div className="ml-3 text-sm">
