@@ -13,10 +13,7 @@ export function serverSideAuthentication(
       if (callback) {
         extraValues = await callback(ctx);
       }
-      console.log(
-        "server side:  hello world",
-        user && allowedRoles.includes(user.role)
-      );
+
       return {
         props: {
           user,

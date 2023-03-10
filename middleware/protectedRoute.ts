@@ -22,7 +22,6 @@ const protectedRoute = (handler: any) => {
 
       return handler(req, res);
     } catch (e: any) {
-      console.log(e);
       res.status(401).send({ ok: false, message: e.message });
     }
   };
