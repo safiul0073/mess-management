@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 import bcrypt from "bcrypt";
-export default async function store(req: NextApiRequest, res: NextApiResponse) {
+import protectedRoute from "../../../middleware/protectedRoute";
+
+async function store(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const { name, email, phone, password, role } = req.body;
     if (!name || !email || !phone || !password || !role) {
@@ -54,3 +56,5 @@ export default async function store(req: NextApiRequest, res: NextApiResponse) {
 
   res.status(404).json({ ok: false, message: "Method not match." });
 }
+
+export default protectedRoute(store);

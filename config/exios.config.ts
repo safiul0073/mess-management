@@ -22,7 +22,7 @@ userAxios.interceptors.response.use(
   // eslint-disable-next-line @typescript-eslint/promise-function-async
   (error: any) => {
     if (error.response.ok === false) {
-      window.location.href = `/auth/login`;
+      // window.location.href = `/auth/login`;
     }
     return Promise.reject(error);
   }

@@ -1,11 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { paginate } from "../../../functions/pagination";
 import prisma from "../../../lib/prisma";
+import protectedRoute from "../../../middleware/protectedRoute";
 
-export default async function getOne(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function getAll(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     const limit: number = req.query.pageSize
       ? parseInt(req.query.pageSize as string)
@@ -44,3 +42,5 @@ export default async function getOne(
 
   res.status(404).json({ ok: false, message: "Method not match." });
 }
+
+export default protectedRoute(getAll);

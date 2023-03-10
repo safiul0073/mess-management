@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
+import protectedRoute from "../../../middleware/protectedRoute";
 
-export default async function del(req: NextApiRequest, res: NextApiResponse) {
+async function del(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const { id } = req.body;
 
@@ -33,3 +34,5 @@ export default async function del(req: NextApiRequest, res: NextApiResponse) {
 
   res.status(404).json({ ok: false, message: "Method not match." });
 }
+
+export default protectedRoute(del);

@@ -8,7 +8,7 @@ import { useStore } from "../store";
 import { QueryClient, QueryClientProvider } from "react-query";
 import ProgressBar from "@badrap/bar-of-progress";
 import { updateAxiosToken } from "../config/exios.config";
-
+import { Toaster } from "react-hot-toast";
 const progress = new ProgressBar({
   size: 4,
   color: "#38a169",
@@ -51,6 +51,7 @@ function MyApp({ Component, pageProps }: any) {
       <QueryClientProvider client={queryClient}>
         <>
           <Component {...pageProps} />
+          <Toaster />
         </>
       </QueryClientProvider>
     </Default>
