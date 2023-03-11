@@ -3,10 +3,12 @@ import { useRouter } from "next/router";
 import React from "react";
 import Button from "../../components/common/Button";
 import { serverSideAuthentication } from "../../functions/serverSideAuthentication";
+import { getData } from "../../hooks/getData";
 
 const index = () => {
   const router = useRouter();
 
+  const { data } = getData("user/all");
   return (
     <div>
       <div className="md:flex justify-between items-center">
@@ -35,17 +37,21 @@ const index = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+            {data?.data?.map((user: any) => (
+              <tr
+                key={user?.id}
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
               >
-                Apple MacBook Pro 17
-              </th>
-              <td className="px-6 py-4">Silver</td>
-              <td className="px-6 py-4">Laptop</td>
-              <td className="px-6 py-4">$2999</td>
-            </tr>
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {user?.name}
+                </th>
+                <td className="px-6 py-4">{user?.email}</td>
+                <td className="px-6 py-4">{user?.phone}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

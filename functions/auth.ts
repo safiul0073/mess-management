@@ -72,8 +72,9 @@ export const sendRefreshToken: CookieTypeGuard<any> = (
   res.setHeader(
     "Set-Cookie",
     cookie.serialize("refreshToken", token, {
+      domain: process.env.APP_DOMAIN,
       httpOnly: true,
-      maxAge: token === "" ? 60 * 60 * 24 * 7 : 0,
+      maxAge: 60 * 60 * 24 * 7,
       path: "/",
     })
   );

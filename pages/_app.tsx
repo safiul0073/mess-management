@@ -7,7 +7,6 @@ import { refreshToken } from "../functions/auth";
 import { useStore } from "../store";
 import { QueryClient, QueryClientProvider } from "react-query";
 import ProgressBar from "@badrap/bar-of-progress";
-import { updateAxiosToken } from "../config/exios.config";
 import { Toaster } from "react-hot-toast";
 const progress = new ProgressBar({
   size: 4,
@@ -28,8 +27,6 @@ function MyApp({ Component, pageProps }: any) {
     refreshToken().then((data: any) => {
       if (data.ok === true) {
         store.setAccessToken(data.accessToken);
-        updateAxiosToken(data.accessToken);
-        store.setUser(data.user);
       }
     });
 
@@ -37,8 +34,6 @@ function MyApp({ Component, pageProps }: any) {
       refreshToken().then((data: any) => {
         if (data.ok === true) {
           store.setAccessToken(data.accessToken);
-          updateAxiosToken(data.accessToken);
-          store.setUser(data.user);
         }
       });
     }, 600000);

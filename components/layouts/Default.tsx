@@ -1,6 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 
-import Sidebar from "../Sidebar";
+import Sidebar from "./Sidebar";
 
 function Default({ children }: any) {
   return (

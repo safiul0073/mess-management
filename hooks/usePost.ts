@@ -1,8 +1,7 @@
 import { toast } from "react-hot-toast";
-import { userAxios } from "../config/exios.config";
 
-export const usePost = async (url: string, data: any) => {
-  const res = await userAxios.post(url, data).catch((err: any) => {
+export const usePost = async (api: any, url: string, data: any) => {
+  const res = await api.post(url, data).catch((err: any) => {
     toast.error(err?.response?.data.message, {
       position: "top-right",
     });

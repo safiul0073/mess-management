@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { useStore } from "../../store";
-import { publicAxios, updateAxiosToken } from "../../config/exios.config";
+import { publicAxios } from "../../config/exios.config";
 import InputField from "../../components/common/InputField";
 
 const login = (): JSX.Element => {
@@ -24,10 +24,8 @@ const login = (): JSX.Element => {
       .then((res: any) => {
         if (res.data.ok) {
           store.setAccessToken(res.data.accessToken);
-          updateAxiosToken(res.data.accessToken);
-          store.setUser(res.data.user);
           // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          router.replace("/");
+          router.push("/");
         }
       });
   };

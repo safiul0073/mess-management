@@ -4,6 +4,7 @@
 import React, { useState } from "react";
 import InputField from "../../components/common/InputField";
 import SubmitButtonWithLoader from "../../components/common/SubmitButtonWithLoader";
+import useAxios from "../../hooks/useAxios";
 import { usePost } from "../../hooks/usePost";
 const defaultUser = {
   name: "",
@@ -15,7 +16,7 @@ const defaultUser = {
 const create = () => {
   const [userInfo, setUserInfo] = useState(defaultUser);
   const [loading, setLoading] = useState(false);
-
+  const api = useAxios();
   const reset = () => {
     setUserInfo(defaultUser);
   };
@@ -23,10 +24,8 @@ const create = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-    const res = await usePost("user/store", userInfo);
-
+    const res = await usePost(api, "user/store", userInfo);
     if (res) reset();
-
     setLoading(false);
   };
   return (

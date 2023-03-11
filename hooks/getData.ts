@@ -1,17 +1,14 @@
 import { toast } from "react-hot-toast";
 import { useQuery } from "react-query";
-import { userAxios } from "../config/exios.config";
 import { API_URL } from "../constant";
+import useAxios from "./useAxios";
 
 export const getData = (url: string, params: any = {}) => {
-  // let id = null
-  // if (params.id && typeof params.id === 'string' || typeof params.id === 'number') {
-  //     id = params.id
-  // }
+  const api = useAxios();
   return useQuery(
     [url],
     async () => {
-      const res = await userAxios
+      const res = await api
         .get(`${API_URL}${url}`, {
           // eslint-disable-next-line object-shorthand
           params: params,
@@ -22,7 +19,7 @@ export const getData = (url: string, params: any = {}) => {
           });
         });
 
-      return res?.data;
+      return res?.data?.data;
     },
     {
       refetchOnWindowFocus: false,
