@@ -1,12 +1,14 @@
+/* eslint-disable no-var */
 import { toast } from "react-hot-toast";
 import { useQuery } from "react-query";
 import { API_URL } from "../constant";
-import useAxios from "./useAxios";
+import { useAxios } from "./useAxios";
 
 export const getData = (url: string, params: any = {}) => {
   const api = useAxios();
+
   return useQuery(
-    [url],
+    [url, params.page, params.pageSize],
     async () => {
       const res = await api
         .get(`${API_URL}${url}`, {
@@ -19,7 +21,7 @@ export const getData = (url: string, params: any = {}) => {
           });
         });
 
-      return res?.data?.data;
+      return res?.data;
     },
     {
       refetchOnWindowFocus: false,

@@ -7,7 +7,7 @@ const protectedRoute = (handler: any) => {
       const authorization = req.headers.authorization;
 
       const token = authorization?.split(" ")[1];
-      console.log(token);
+
       if (!token) {
         res.status(401).json({ ok: false, message: "Unauthorize!" });
         return;

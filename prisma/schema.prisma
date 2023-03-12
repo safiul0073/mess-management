@@ -15,10 +15,60 @@ model User {
   id            String       @default(cuid()) @id
   name          String
   email         String   @unique
-  phone         String    @unique
+  phone         String   @unique
   password      String    
   role          String
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  meals         Meal[]
+  costs         Cost[]
+  memberRents   MemberRent[]
   @@map(name: "users")
+}
+
+model Meal {
+  id            String  @default(cuid()) @id
+  count         Float @default(0)
+  date          String
+  member        User @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId      String
+  @@map(name:"meals")
+  @@index([memberId])
+} 
+
+model Cost {
+  id            String  @default(cuid()) @id
+  amount        Float @default(0)
+  date          String
+  member        User @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId      String
+  @@map(name:"costs")
+  @@index([memberId])
+}
+
+model HomeRent {
+  id                 String  @default(cuid()) @id
+  unitAmount         Float @default(0) @map(name: "unit_amount")
+  additionalAmount   Float @default(0) @map(name: "additional_amount")
+  date               DateTime
+  memberRent         MemberRent[]
+  createdAt          DateTime  @default(now()) @map(name: "created_at")
+  updatedAt          DateTime  @updatedAt @map(name: "updated_at")
+  @@map(name:"home_rents")
+}
+
+model MemberRent {
+  id                 String  @default(cuid()) @id
+  primaryAmount      Float @default(0) @map(name: "primary_amount")
+  Bcost              Float @default(0) @map(name: "b_cost")
+  Ncost              Float @default(0) @map(name: "n_cost")
+  additionalCost     Float @default(0) @map(name: "additional_cost")
+  date               DateTime
+  user               User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId             String
+  homeRent           HomeRent @relation(fields: [homeRentId], references: [id], onDelete: Cascade)
+  homeRentId         String
+  @@map(name:"member_rents")
+  @@index([userId])
+  @@index([homeRentId])
 }

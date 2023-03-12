@@ -5,7 +5,7 @@ import { API_URL } from "../constant";
 import { refreshToken } from "../functions/auth";
 import { useStore } from "../store";
 
-const useAxios = () => {
+export const useAxios = () => {
   const { accessToken, setAccessToken } = useStore();
 
   const userAxios = axios.create({
@@ -34,5 +34,3 @@ const useAxios = () => {
 
   return userAxios;
 };
-
-export default useAxios;

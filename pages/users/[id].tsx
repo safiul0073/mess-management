@@ -1,39 +1,54 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
-import React, { memo, useState } from "react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
 import InputField from "../../components/common/InputField";
 import SubmitButtonWithLoader from "../../components/common/SubmitButtonWithLoader";
+import { getData } from "../../hooks/getData";
 import { useAxios } from "../../hooks/useAxios";
 import { usePost } from "../../hooks/usePost";
 
 const defaultUser = {
+  id: "",
   name: "",
   email: "",
   phone: "",
   password: "",
   role: "normal",
 };
-const create = () => {
+const update = () => {
+  const router = useRouter();
+  const api = useAxios();
+  const {
+    query: { id },
+  } = router;
+
+  const { data, refetch } = getData("user/getOne/", { id });
+
   const [userInfo, setUserInfo] = useState(defaultUser);
   const [loading, setLoading] = useState(false);
-  const api = useAxios();
-  const reset = () => {
-    setUserInfo(defaultUser);
-  };
+
+  React.useEffect(() => {
+    setUserInfo({ ...data?.data });
+    return () => {};
+  }, [data]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-    const res = await usePost(api, "user/store", userInfo);
-    if (res) reset();
+    const res = await usePost(api, "user/update", userInfo);
+    if (res) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      refetch();
+    }
     setLoading(false);
   };
   return (
     <div className=" mt-8">
       <div className="md:w-1/2 mx-auto">
         <div className="text-center my-3">
-          <h1>Create a New User.</h1>
+          <h1>Update a New User.</h1>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
           <InputField
@@ -90,4 +105,4 @@ const create = () => {
   );
 };
 
-export default memo(create);
+export default update;

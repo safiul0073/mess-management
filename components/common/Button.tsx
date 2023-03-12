@@ -3,8 +3,7 @@ import React from "react";
 interface buttonType {
   title: string;
   customStyle?: string;
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  onClick?: () => {};
+  onClick?: () => void;
 }
 const Button = ({ title, customStyle, onClick }: buttonType) => {
   return (

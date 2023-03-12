@@ -3,8 +3,8 @@ import prisma from "../../../lib/prisma";
 import protectedRoute from "../../../middleware/protectedRoute";
 
 async function getOne(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === "GET") {
-    const id: string = req.query.id as string;
+  if (req.method === "POST") {
+    const { id } = req.body;
 
     if (!id) {
       res.status(422).json({
