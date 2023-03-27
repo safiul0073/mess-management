@@ -15,17 +15,17 @@ async function del(req: NextApiRequest, res: NextApiResponse) {
     }
 
     try {
-      const meal = await prisma.meal.delete({
+      const cost = await prisma.cost.delete({
         where: {
           id,
         },
       });
 
-      if (!meal) {
-        res.status(500).json({ ok: true, message: "Meal not deleted" });
+      if (!cost) {
+        res.status(500).json({ ok: true, message: "Cost not deleted" });
       }
 
-      res.status(200).json({ ok: true, message: "Meal deleted." });
+      res.status(200).json({ ok: true, message: "Cost deleted." });
       return;
     } catch (error) {
       res.status(500).json({ ok: false, message: "Something want wrong." });

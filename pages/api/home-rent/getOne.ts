@@ -15,17 +15,17 @@ async function getOne(req: NextApiRequest, res: NextApiResponse) {
     }
 
     try {
-      const cost = await prisma.cost.findUnique({
+      const homeRent = await prisma.homeRent.findUnique({
         where: {
           id,
         },
       });
 
-      if (!cost) {
-        res.status(500).json({ ok: true, message: "Cost not found!" });
+      if (!homeRent) {
+        res.status(500).json({ ok: true, message: "Home Rent not found!" });
       }
 
-      res.status(200).json({ ok: true, data: cost });
+      res.status(200).json({ ok: true, data: homeRent });
       return;
     } catch (error) {
       res.status(500).json({ ok: false, message: "Something want wrong." });

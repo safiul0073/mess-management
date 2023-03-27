@@ -6,9 +6,9 @@ import protectedRoute from "../../../middleware/protectedRoute";
 
 async function update(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const { id, count, date, memberId } = req.body;
+    const { id, amount, date, memberId } = req.body;
 
-    if (!id || !count || !date || !memberId) {
+    if (!id || !amount || !date || !memberId) {
       res.status(422).json({
         ok: false,
         message: "Please provide all the required fields",
@@ -17,24 +17,24 @@ async function update(req: NextApiRequest, res: NextApiResponse) {
     }
 
     try {
-      // creating meal
-      const meal = await prisma.meal.update({
+      // updating cost
+      const cost = await prisma.cost.update({
         where: {
           id,
         },
         data: {
-          count,
+          amount,
           date,
           memberId,
         },
       });
 
-      if (!meal) {
-        res.status(422).json({ ok: false, message: "Meal not created" });
+      if (!cost) {
+        res.status(422).json({ ok: false, message: "Cost not created" });
         return;
       }
 
-      res.status(201).json({ ok: true, message: "Meal created." });
+      res.status(201).json({ ok: true, message: "Cost created." });
       return;
     } catch (error) {
       res.status(500).json({ ok: false, message: "Something want wrong." });

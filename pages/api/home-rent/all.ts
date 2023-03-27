@@ -13,30 +13,26 @@ async function getAll(req: NextApiRequest, res: NextApiResponse) {
       : 1;
 
     try {
-      const costs = await prisma.cost.findMany({
+      const homeRents = await prisma.homeRent.findMany({
         take: limit,
         skip: limit * (page - 1),
         select: {
           id: true,
-          amount: true,
+          unitAmount: true,
+          additionalAmount: true,
           date: true,
-          member: {
-            select: {
-              name: true,
-            },
-          },
         },
       });
 
-      const count = await prisma.cost.count({});
+      const count = await prisma.homeRent.count({});
 
-      if (!costs) {
-        res.status(500).json({ ok: true, message: "Cost not found1" });
+      if (!homeRents) {
+        res.status(500).json({ ok: true, message: "Home Rents not found1" });
       }
 
       res
         .status(200)
-        .json({ ok: true, data: paginate(costs, count, page, limit) });
+        .json({ ok: true, data: paginate(homeRents, count, page, limit) });
       return;
     } catch (error) {
       res.status(500).json({ ok: false, message: "Something want wrong." });

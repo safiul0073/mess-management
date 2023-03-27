@@ -18,6 +18,7 @@ model User {
   phone         String   @unique
   password      String    
   role          String
+  status        String    @default("active")
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
   meals         Meal[]
@@ -28,7 +29,9 @@ model User {
 
 model Meal {
   id            String  @default(cuid()) @id
-  count         Float @default(0)
+  breakFast     Float @default(1) @map("breack_first")
+  lunch         Float @default(1)
+  dinar        Float @default(1) 
   date          String
   member        User @relation(fields: [memberId], references: [id], onDelete: Cascade)
   memberId      String
@@ -50,7 +53,7 @@ model HomeRent {
   id                 String  @default(cuid()) @id
   unitAmount         Float @default(0) @map(name: "unit_amount")
   additionalAmount   Float @default(0) @map(name: "additional_amount")
-  date               DateTime
+  date               String
   memberRent         MemberRent[]
   createdAt          DateTime  @default(now()) @map(name: "created_at")
   updatedAt          DateTime  @updatedAt @map(name: "updated_at")
@@ -63,7 +66,7 @@ model MemberRent {
   Bcost              Float @default(0) @map(name: "b_cost")
   Ncost              Float @default(0) @map(name: "n_cost")
   additionalCost     Float @default(0) @map(name: "additional_cost")
-  date               DateTime
+  date               String
   user               User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId             String
   homeRent           HomeRent @relation(fields: [homeRentId], references: [id], onDelete: Cascade)

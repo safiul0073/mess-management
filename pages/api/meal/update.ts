@@ -6,9 +6,9 @@ import protectedRoute from "../../../middleware/protectedRoute";
 
 async function update(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const { id, count, date, memberId } = req.body;
+    const { id, breakFast, lunch, dinar, date, memberId } = req.body;
 
-    if (!id || !count || !date || !memberId) {
+    if (!id || !breakFast || !lunch || !dinar || !date || !memberId) {
       res.status(422).json({
         ok: false,
         message: "Please provide all the required fields",
@@ -17,13 +17,15 @@ async function update(req: NextApiRequest, res: NextApiResponse) {
     }
 
     try {
-      // creating meal
+      // updating meal
       const meal = await prisma.meal.update({
         where: {
           id,
         },
         data: {
-          count,
+          breakFast,
+          lunch,
+          dinar,
           date,
           memberId,
         },

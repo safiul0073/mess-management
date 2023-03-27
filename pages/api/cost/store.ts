@@ -4,9 +4,9 @@ import protectedRoute from "../../../middleware/protectedRoute";
 
 async function store(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const { count, date, memberId } = req.body;
+    const { amount, date, memberId } = req.body;
 
-    if (!count || !date || !memberId) {
+    if (!amount || !date || !memberId) {
       res.status(422).json({
         ok: false,
         message: "Please provide all the required fields",
@@ -16,20 +16,20 @@ async function store(req: NextApiRequest, res: NextApiResponse) {
 
     try {
       // creating meal
-      const meal = await prisma.meal.create({
+      const cost = await prisma.cost.create({
         data: {
-          count,
+          amount,
           date,
           memberId,
         },
       });
 
-      if (!meal) {
-        res.status(422).json({ ok: false, message: "Meal not created" });
+      if (!cost) {
+        res.status(422).json({ ok: false, message: "Cost not created" });
         return;
       }
 
-      res.status(201).json({ ok: true, message: "Meal created." });
+      res.status(201).json({ ok: true, message: "Cost created." });
       return;
     } catch (error) {
       res.status(500).json({ ok: false, message: "Something want wrong." });
