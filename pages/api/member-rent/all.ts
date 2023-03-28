@@ -12,20 +12,32 @@ async function getAll(req: NextApiRequest, res: NextApiResponse) {
       ? parseInt(req.query.page as string)
       : 1;
 
+    const month: string = req.query.month as string;
+
     try {
-      const homeRents = await prisma.homeRent.findMany({
+      const homeRents = await prisma.memberRent.findMany({
         take: limit,
         skip: limit * (page - 1),
+        where: {
+          month,
+        },
         select: {
           id: true,
-          unitAmount: true,
-          additionalAmount: true,
-          month: true,
-          year: true,
+          primaryAmount: true,
+          additionalCost: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
         },
       });
 
-      const count = await prisma.homeRent.count({});
+      const count = await prisma.memberRent.count({
+        where: {
+          month,
+        },
+      });
 
       if (!homeRents) {
         res.status(500).json({ ok: true, message: "Home Rents not found1" });

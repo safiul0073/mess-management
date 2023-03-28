@@ -31,8 +31,8 @@ model Meal {
   id            String  @default(cuid()) @id
   breakFast     Float @default(1) @map("breack_first")
   lunch         Float @default(1)
-  dinar        Float @default(1) 
-  date          String
+  dinar         Float @default(1) 
+  date          DateTime
   member        User @relation(fields: [memberId], references: [id], onDelete: Cascade)
   memberId      String
   @@map(name:"meals")
@@ -42,7 +42,7 @@ model Meal {
 model Cost {
   id            String  @default(cuid()) @id
   amount        Float @default(0)
-  date          String
+  date          DateTime
   member        User @relation(fields: [memberId], references: [id], onDelete: Cascade)
   memberId      String
   @@map(name:"costs")
@@ -53,7 +53,8 @@ model HomeRent {
   id                 String  @default(cuid()) @id
   unitAmount         Float @default(0) @map(name: "unit_amount")
   additionalAmount   Float @default(0) @map(name: "additional_amount")
-  date               String
+  month              String
+  year               String
   memberRent         MemberRent[]
   createdAt          DateTime  @default(now()) @map(name: "created_at")
   updatedAt          DateTime  @updatedAt @map(name: "updated_at")
@@ -63,10 +64,9 @@ model HomeRent {
 model MemberRent {
   id                 String  @default(cuid()) @id
   primaryAmount      Float @default(0) @map(name: "primary_amount")
-  Bcost              Float @default(0) @map(name: "b_cost")
-  Ncost              Float @default(0) @map(name: "n_cost")
-  additionalCost     Float @default(0) @map(name: "additional_cost")
-  date               String
+  additionalCost     Json?
+  month              String
+  year               String
   user               User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId             String
   homeRent           HomeRent @relation(fields: [homeRentId], references: [id], onDelete: Cascade)

@@ -4,9 +4,9 @@ import protectedRoute from "../../../middleware/protectedRoute";
 
 async function store(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const { unitAmount, additionalAmount, date } = req.body;
+    const { unitAmount, additionalAmount, month, year } = req.body;
 
-    if (!unitAmount || !date || !additionalAmount) {
+    if (!unitAmount || !month || !year || !additionalAmount) {
       res.status(422).json({
         ok: false,
         message: "Please provide all the required fields",
@@ -15,16 +15,17 @@ async function store(req: NextApiRequest, res: NextApiResponse) {
     }
 
     try {
-      // creating meal
+      // creating
       const homeRent = await prisma.homeRent.create({
         data: {
           unitAmount,
-          date,
+          month,
+          year,
           additionalAmount,
         },
       });
 
-      const totalAmount = parseInt(unitAmount) + parseInt(additionalAmount);
+      const totalAmount = parseFloat(unitAmount) + parseFloat(additionalAmount);
 
       const userCount = await prisma.user.count({
         where: {
@@ -48,7 +49,8 @@ async function store(req: NextApiRequest, res: NextApiResponse) {
           homeRentId: homeRent.id,
           userId: String(user.id),
           primaryAmount: memberAmount,
-          date: String(date),
+          month,
+          year,
         };
       });
 
