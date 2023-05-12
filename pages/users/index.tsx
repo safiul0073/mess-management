@@ -1,5 +1,5 @@
+/* eslint-disable no-constant-condition */
 /* eslint-disable @typescript-eslint/promise-function-async */
-import Link from "next/link";
 import React, { memo } from "react";
 import LoaderAnimation from "../../components/common/LoaderAnimation";
 import Pagination from "../../components/common/Pagination";
@@ -7,7 +7,7 @@ import RowNotFound from "../../components/common/RowNotFound";
 import TableTopBar from "../../components/common/TableTopBar";
 import Thead from "../../components/common/Thead";
 import { serverSideAuthentication } from "../../functions/serverSideAuthentication";
-import { getData } from "../../hooks/getData";
+// import { getData } from "../../hooks/getData";
 
 const heads = ["Name", "Email", "Phone", "Action"];
 
@@ -20,7 +20,7 @@ const index = () => {
     setPageSize(() => currentPageValue);
   };
 
-  const { isLoading, data } = getData("user/all", { page, pageSize });
+  // const { isLoading, data } = getData("user/all", { page, pageSize });
 
   return (
     <div>
@@ -30,14 +30,14 @@ const index = () => {
         buttonTitle="Add new user"
         buttonPush="users/create"
       />
-      {isLoading ? (
+      {false ? (
         <LoaderAnimation />
-      ) : data?.ok ? (
+      ) : true ? (
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <Thead heads={heads} />
             <tbody>
-              {data?.data?.data?.map((user: any) => (
+              {/* {data?.data?.data?.map((user: any) => (
                 <tr
                   key={user?.id}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
@@ -60,12 +60,12 @@ const index = () => {
                     </Link>
                   </td>
                 </tr>
-              ))}
+              ))} */}
             </tbody>
           </table>
           <div className="my-4">
             <Pagination
-              total={data?.data?.totalCount}
+              total={10}
               pageSize={pageSize}
               pageNumber={page}
               handlePageChange={handlePageChange}

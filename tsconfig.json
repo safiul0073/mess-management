@@ -28,7 +28,8 @@
     "**/*.tsx",
     "store/index.ts",
     "prisma/seed.ts",
-    "prisma/seed.ts"
+    "prisma/seed.ts",
+    "server.js"
   ],
   "exclude": ["node_modules"]
 }

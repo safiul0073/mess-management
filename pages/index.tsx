@@ -1,5 +1,5 @@
 import React from "react";
-import { serverSideAuthentication } from "../functions/serverSideAuthentication";
+// import { serverSideAuthentication } from "../functions/serverSideAuthentication";
 function Home(): JSX.Element {
   return (
     <>
@@ -7,5 +7,5 @@ function Home(): JSX.Element {
     </>
   );
 }
-export const getServerSideProps = serverSideAuthentication(["manager"]);
+// export const getServerSideProps = serverSideAuthentication(["manager"]);
 export default Home;

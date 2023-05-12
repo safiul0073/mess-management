@@ -1,38 +1,17 @@
-/* eslint-disable @typescript-eslint/no-confusing-void-expression */
-import { create } from "zustand";
+import { configureStore } from "@reduxjs/toolkit";
+import { apiSlice } from "./slices/api/apiSlice";
+import authSlice from "./slices/auth/authSlice";
 
-interface userType {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  role: string;
-}
-interface userStoreType {
-  accessToken: string | null | undefined;
-  user: userType | unknown;
-  setAccessToken: (a: string | null | undefined) => void;
-  removeAccessToken: () => void;
-  setUser: (a: userType | null | undefined) => void;
-  removeUser: () => void;
-}
+export const store = configureStore({
+  reducer: {
+    [apiSlice.reducerPath]: apiSlice.reducer,
+    auth: authSlice,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
+  devTools: process.env.NODE_ENV !== "production",
+});
 
-export const useStore = create<userStoreType>((set) => ({
-  accessToken: null,
-  user: {},
-  setAccessToken: (token) =>
-    set((state) => ({
-      ...state,
-      token,
-    })),
-  removeAccessToken: () =>
-    set((state) => ({
-      ...state,
-    })),
-  setUser: (user) =>
-    set((state) => ({
-      ...state,
-      user,
-    })),
-  removeUser: () => set({ user: null }),
-}));
+export type RootState = ReturnType<typeof store.getState>;
+
+export type AppDispatch = typeof store.dispatch;

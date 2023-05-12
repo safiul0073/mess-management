@@ -1,13 +1,11 @@
 /* eslint-disable react/react-in-jsx-scope */
 import "../styles/globals.css";
-import Default from "../components/layouts/Default";
-import Router, { useRouter } from "next/router";
-import { useEffect } from "react";
-import { refreshToken } from "../functions/auth";
-import { useStore } from "../store";
-import { QueryClient, QueryClientProvider } from "react-query";
+import Router from "next/router";
 import ProgressBar from "@badrap/bar-of-progress";
 import { Toaster } from "react-hot-toast";
+import { Provider } from "react-redux";
+import { store } from "../store";
+import RequireAuth from "../components/RequireAuth";
 const progress = new ProgressBar({
   size: 4,
   color: "#38a169",
@@ -18,38 +16,17 @@ const progress = new ProgressBar({
 Router.events.on("routeChangeStart", progress.start);
 Router.events.on("routeChangeComplete", progress.finish);
 Router.events.on("routeChangeError", progress.finish);
-const queryClient = new QueryClient();
+
 function MyApp({ Component, pageProps }: any) {
-  const store = useStore();
-  const router = useRouter();
-
-  useEffect(() => {
-    refreshToken().then((data: any) => {
-      if (data.ok === true) {
-        store.setAccessToken(data.accessToken);
-      }
-    });
-
-    setInterval(() => {
-      refreshToken().then((data: any) => {
-        if (data.ok === true) {
-          store.setAccessToken(data.accessToken);
-        }
-      });
-    }, 600000);
-  }, []);
-  if (router.pathname === "/auth/login") {
-    return <Component {...pageProps} />;
-  }
   return (
-    <Default>
-      <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
+      <RequireAuth>
         <>
           <Component {...pageProps} />
           <Toaster />
         </>
-      </QueryClientProvider>
-    </Default>
+      </RequireAuth>
+    </Provider>
   );
 }
 

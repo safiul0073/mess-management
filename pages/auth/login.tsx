@@ -1,33 +1,32 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 import React, { useState } from "react";
-import { useRouter } from "next/router";
-import { useStore } from "../../store";
-import { publicAxios } from "../../config/exios.config";
 import InputField from "../../components/common/InputField";
+import { useLoginMutation } from "../../store/slices/auth/authApiSlice";
+import { useDispatch } from "react-redux";
+import { setAuthData } from "../../store/slices/auth/authSlice";
 
 const login = (): JSX.Element => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const store = useStore();
-  const router = useRouter();
+  const [login] = useLoginMutation();
+  const dispatch = useDispatch();
 
   const submitForm = async (e: any) => {
     e.preventDefault();
 
-    await publicAxios
-      .post("auth/login", {
+    try {
+      const data = await login({
         username,
         password,
-      })
-      .then((res: any) => {
-        if (res.data.ok) {
-          store.setAccessToken(res.data.accessToken);
-          // eslint-disable-next-line @typescript-eslint/no-floating-promises
-          router.push("/");
-        }
-      });
+      }).unwrap();
+      if (data?.ok) {
+        dispatch(setAuthData({ user: data?.user, token: data?.accessToken }));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
@@ -74,14 +73,6 @@ const login = (): JSX.Element => {
                           type="checkbox"
                           className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                         />
-                      </div>
-                      <div className="ml-3 text-sm">
-                        <label
-                          htmlFor="remember"
-                          className="text-gray-500 dark:text-gray-300"
-                        >
-                          Remember me
-                        </label>
                       </div>
                     </div>
                     <a
