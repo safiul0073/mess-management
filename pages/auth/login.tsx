@@ -1,17 +1,16 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
-/* eslint-disable @typescript-eslint/no-confusing-void-expression */
 import React, { useState } from "react";
-import InputField from "../../components/common/InputField";
+import InputField from "../../components/ui/InputField";
 import { useLoginMutation } from "../../store/slices/auth/authApiSlice";
-import { useDispatch } from "react-redux";
 import { setAuthData } from "../../store/slices/auth/authSlice";
+import { useAppDispatch } from "../../store/hooks";
+import ButtonWithLoader from "../../components/ui/ButtonWithLoader";
 
 const login = (): JSX.Element => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [login] = useLoginMutation();
-  const dispatch = useDispatch();
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useAppDispatch();
 
   const submitForm = async (e: any) => {
     e.preventDefault();
@@ -44,7 +43,10 @@ const login = (): JSX.Element => {
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Sign in to your account
                 </h1>
-                <form onSubmit={submitForm} className="space-y-4 md:space-y-6">
+                <form
+                  onSubmit={() => submitForm}
+                  className="space-y-4 md:space-y-6"
+                >
                   <InputField
                     name="username"
                     label="Your email or phone"
@@ -52,7 +54,9 @@ const login = (): JSX.Element => {
                     type="text"
                     value={username}
                     placeHolder="hello@gmail.com"
-                    onChange={(e: any) => setUsername(e.target.value)}
+                    onChange={(e: any) => {
+                      setUsername(e.target.value);
+                    }}
                   />
                   <InputField
                     name="password"
@@ -60,21 +64,12 @@ const login = (): JSX.Element => {
                     required={true}
                     type="password"
                     value={password}
-                    onChange={(e: any) => setPassword(e.target.value)}
+                    onChange={(e: any) => {
+                      setPassword(e.target.value);
+                    }}
                     placeHolder="••••••••"
                   />
-
                   <div className="flex items-center justify-between">
-                    <div className="flex items-start">
-                      <div className="flex items-center h-5">
-                        <input
-                          id="remember"
-                          aria-describedby="remember"
-                          type="checkbox"
-                          className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                        />
-                      </div>
-                    </div>
                     <a
                       href="#"
                       className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
@@ -82,12 +77,11 @@ const login = (): JSX.Element => {
                       Forgot password?
                     </a>
                   </div>
-                  <button
+                  <ButtonWithLoader
+                    isLoading={isLoading}
                     type="submit"
-                    className="w-full text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                  >
-                    Sign in
-                  </button>
+                    name="Sign in"
+                  />
                   <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                     Don’t have an account yet?{" "}
                     <a

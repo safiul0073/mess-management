@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import InputField from "../../components/common/InputField";
-import SubmitButtonWithLoader from "../../components/common/SubmitButtonWithLoader";
+import InputField from "../../components/ui/InputField";
+import SubmitButtonWithLoader from "../../components/ui/SubmitButtonWithLoader";
 
 const defaultUser = {
   id: "",

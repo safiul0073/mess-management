@@ -2,8 +2,8 @@
 /* eslint-disable @typescript-eslint/promise-function-async */
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 import React, { memo, useState } from "react";
-import InputField from "../../components/common/InputField";
-import SubmitButtonWithLoader from "../../components/common/SubmitButtonWithLoader";
+import InputField from "../../components/ui/InputField";
+import SubmitButtonWithLoader from "../../components/ui/SubmitButtonWithLoader";
 
 const defaultUser = {
   name: "",

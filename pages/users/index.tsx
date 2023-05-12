@@ -1,11 +1,11 @@
 /* eslint-disable no-constant-condition */
 /* eslint-disable @typescript-eslint/promise-function-async */
 import React, { memo } from "react";
-import LoaderAnimation from "../../components/common/LoaderAnimation";
-import Pagination from "../../components/common/Pagination";
-import RowNotFound from "../../components/common/RowNotFound";
-import TableTopBar from "../../components/common/TableTopBar";
-import Thead from "../../components/common/Thead";
+import LoaderAnimation from "../../components/ui/LoaderAnimation";
+import Pagination from "../../components/ui/Pagination";
+import RowNotFound from "../../components/ui/RowNotFound";
+import TableTopBar from "../../components/ui/TableTopBar";
+import Thead from "../../components/ui/Thead";
 import { serverSideAuthentication } from "../../functions/serverSideAuthentication";
 // import { getData } from "../../hooks/getData";
 
