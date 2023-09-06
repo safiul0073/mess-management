@@ -5,5 +5,5 @@ type ReactChild = ReactElement | ReactText;
 type ReactNode = ReactChild | ReactPortal | boolean | null | undefined;
 
 export interface Props {
-  children: ReactNode;
+    children: ReactNode;
 }

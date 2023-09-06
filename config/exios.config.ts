@@ -5,7 +5,7 @@ import { API_URL } from "../constant";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 
 const publicAxios = axios.create({
-  baseURL: API_URL,
+    baseURL: API_URL,
 });
 
 export { publicAxios };

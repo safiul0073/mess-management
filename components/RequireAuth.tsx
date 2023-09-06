@@ -6,40 +6,40 @@ import { getCurrentToken, setAuthData } from "../store/slices/auth/authSlice";
 import Default from "./layouts/Default";
 
 const RequireAuth = ({ children }: any) => {
-  const token = useSelector(getCurrentToken);
-  const dispatch = useDispatch();
-  const router = useRouter();
+    const token = useSelector(getCurrentToken);
+    const dispatch = useDispatch();
+    const router = useRouter();
 
-  if (!token && router.pathname === "/" && typeof window !== "undefined") {
-    void router.replace("/auth/login");
-  }
+    if (!token && router.pathname === "/" && typeof window !== "undefined") {
+        void router.replace("/auth/login");
+    }
 
-  if (token && typeof window !== "undefined") {
-    void router.replace("/");
-  }
+    if (token && typeof window !== "undefined") {
+        void router.replace("/");
+    }
 
-  const dispatchAuthData = () => {
-    refreshToken().then((data: any) => {
-      if (data.ok === true) {
-        dispatch(
-          setAuthData({
-            user: data?.user,
-            token: data?.accessToken,
-          })
-        );
-      }
-    });
-  };
+    const dispatchAuthData = () => {
+        refreshToken().then((data: any) => {
+            if (data.ok === true) {
+                dispatch(
+                    setAuthData({
+                        user: data?.user,
+                        token: data?.accessToken,
+                    })
+                );
+            }
+        });
+    };
 
-  useEffect(() => {
-    dispatchAuthData();
+    useEffect(() => {
+        dispatchAuthData();
 
-    setInterval(() => {
-      dispatchAuthData();
-    }, 600000);
-  }, []);
+        setInterval(() => {
+            dispatchAuthData();
+        }, 600000);
+    }, []);
 
-  return token ? <Default>{children}</Default> : children;
+    return token ? <Default>{children}</Default> : children;
 };
 
 export default RequireAuth;
