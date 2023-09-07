@@ -23,7 +23,11 @@ const login = (): JSX.Element => {
             }).unwrap();
             if (data?.ok) {
                 dispatch(
-                    setAuthData({ user: data?.user, token: data?.accessToken })
+                    setAuthData({
+                        user: data?.user,
+                        token: data?.accessToken,
+                        isAuth: true,
+                    })
                 );
             }
         } catch (error) {

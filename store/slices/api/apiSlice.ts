@@ -39,6 +39,7 @@ const baseQueryWithAuth: any = async (
                 setAuthData({
                     user,
                     token: accessToken,
+                    isAuth: true,
                 })
             );
 

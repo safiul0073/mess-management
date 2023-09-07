@@ -8,6 +8,7 @@ export interface AuthUserType {
 export interface AuthStateType {
     user: AuthUserType | null;
     token: string | null;
+    isAuth: boolean;
 }
 
 export interface LoginResponseType {
