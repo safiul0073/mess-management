@@ -14,9 +14,9 @@ const RequireAuth = ({ children }: any) => {
         void router.replace("/auth/login");
     }
 
-    if (token && typeof window !== "undefined") {
-        void router.replace("/");
-    }
+    // if (token && typeof window !== "undefined") {
+    //     void router.replace("/");
+    // }
 
     const dispatchAuthData = () => {
         refreshToken().then((data: any) => {
