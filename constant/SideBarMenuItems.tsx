@@ -1,4 +1,4 @@
-/* eslint-disable react/react-in-jsx-scope */
+import React from "react";
 import { type SideBarMenuItemTypes } from "../types/menu-item-types";
 import { BiSolidDashboard, BiUser, BiLogOut } from "react-icons/bi";
 export const SideBarMenuItems: SideBarMenuItemTypes[] = [
